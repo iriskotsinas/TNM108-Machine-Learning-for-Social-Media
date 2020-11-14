@@ -6,6 +6,9 @@ from sklearn import svm
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import Lasso
 from sklearn.metrics import f1_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
@@ -57,6 +60,21 @@ method = 'k nearest neighbours'
 clf = KNeighborsClassifier(weights='distance',n_neighbors=5)
 y_pred = cross_val_predict(clf, X,Y, cv=cv)
 CalcMeasures(method,y_pred,Y)
+method = 'decision tree'
+clf = DecisionTreeRegressor(random_state=0)
+y_pred = cross_val_predict(clf, X,Y, cv=cv)
+CalcMeasures(method,y_pred,Y)
+# method = 'random forest'
+# clf = RandomForestRegressor(n_estimators=50, max_depth=None, min_samples_split=2, random_state=0)
+# y_pred = cross_val_predict(clf, X,Y, cv=cv)
+# CalcMeasures(method,y_pred,Y)
+method = 'rbf support vector machine'
+clf = svm.SVC(kernel='rbf',C=50, gamma="auto")
+y_pred = cross_val_predict(clf, X,Y, cv=cv)
+CalcMeasures(method,y_pred,Y)
 
 labels_counts=df[6].value_counts()
 print(pd.Series(map6).map(labels_counts))
+print(df_f1,'\n')
+print(df_precision,'\n')
+print(df_recall,'\n')
